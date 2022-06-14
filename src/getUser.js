@@ -6,10 +6,12 @@ module.exports.getUser = async (event) => {
   //const searchText = event.queryStringParameters.text
 
  const result = await elasticClient.search({
-          index: 'usuarios',
+          index: `${process.env.stage}-users`,
           body: {
               query: {
-                match_all: { }
+                match: { 
+                  status: 'active'
+                }
               }
           }
       })

@@ -5,14 +5,14 @@ const elasticClient = require("./config/elastic");
 module.exports.createUser = async (event) => {
 
   const body = JSON.parse((event.body));
-  console.log(body)
   
   try{
     await elasticClient.update({
-      index: 'usuarios',
+      index: `${process.env.stage}-users`,
       id: body.Driver_id,
       doc: {
-       doc: body
+       doc: body,
+       status: 'active'
       },
       doc_as_upsert: true
     })

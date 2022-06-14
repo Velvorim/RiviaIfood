@@ -10,20 +10,27 @@ provider:
      id: ${param:elastic_id}
      user: ${param:elastic_user}
      pass: ${param:elastic_password}
+     stage: ${opt:stage, 'dev'}
 
 functions:
   createUser:
     handler: src/createUser.createUser
     events:
       - httpApi:
-          path: /
+          path: /user
           method: post
   getUser:
     handler: src/getUser.getUser
     events:
       - httpApi:
-          path: /
+          path: /users
           method: get
+  deleteUser:  
+    handler: src/deleteUser.deleteUser
+    events:
+      - httpApi:
+          path: /user/{id}
+          method: delete       
 
 
 
