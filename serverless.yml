@@ -1,0 +1,31 @@
+org: velvor
+app: teste
+service: teste
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  environment:
+     id: ${param:elastic_id}
+     user: ${param:elastic_user}
+     pass: ${param:elastic_password}
+
+functions:
+  createUser:
+    handler: src/createUser.createUser
+    events:
+      - httpApi:
+          path: /
+          method: post
+  getUser:
+    handler: src/getUser.getUser
+    events:
+      - httpApi:
+          path: /
+          method: get
+
+
+
+
+      
