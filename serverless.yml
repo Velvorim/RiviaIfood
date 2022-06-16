@@ -7,10 +7,10 @@ provider:
   name: aws
   runtime: nodejs14.x
   environment:
-     id: ${param:elastic_id}
+     ELASTIC_CLOUD_ID: ${param:ELASTIC_CLOUD_ID}
      user: ${param:elastic_user}
-     pass: ${param:elastic_password}
-     stage: ${opt:stage, 'dev'}
+     pwd: ${param:elastic_password}
+     stage: ${sls:stage}
 
 functions:
   createUser:

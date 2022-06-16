@@ -1,19 +1,16 @@
 'use strict'
-const elasticClient = require("./config/elastic");
+const es = require("./config/elastic");
 
 
 module.exports.deleteUser = async (event) => {
   const id = event.pathParameters.id 
-  console.log(id) 
 
   try{
-    await elasticClient.update({
-      index: `${process.env.stage}-users`,
-      id: id,
-      doc: {
-        status: 'inactive'
-      } 
-    })
+    await es.update(
+      `${process.env.stage}-users`,
+      id,
+      {status: 'inactive'}
+    )
 
     return {
       statusCode: 202,

@@ -1,29 +1,28 @@
 'use strict';
-const elasticClient = require("./config/elastic");
+const es = require("./config/elastic");
  
 module.exports.getUser = async (event) => {
  
-  //const searchText = event.queryStringParameters.text
-
- const result = await elasticClient.search({
-          index: `${process.env.stage}-users`,
-          body: {
-              query: {
-                match: { 
-                  status: 'active'
-                }
+ 
+ const result = await es.query(
+        `${process.env.stage}-users`,
+         {
+          query: {
+            match: { 
+              "body.status": "active"
               }
+            }
           }
-      })
-
+      )
+console.log(result)
     
       try{
         return {
           statusCode: 200,
           body: JSON.stringify({
-            items: await result.hits.hits.map((users) => {
+            items: await result.items.map((users) => {
               return {
-               dados: users._source
+               dados: users
               };
             }),
           }),

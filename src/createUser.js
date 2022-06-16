@@ -1,21 +1,20 @@
 'use strict'
-const elasticClient = require("./config/elastic");
+const es = require("./config/elastic");
 
 
 module.exports.createUser = async (event) => {
 
-  const body = JSON.parse((event.body));
-  
+  const body = JSON.parse((event.body))
+  body.status = 'active' 
+
   try{
-    await elasticClient.update({
-      index: `${process.env.stage}-users`,
-      id: body.Driver_id,
-      doc: {
-       doc: body,
-       status: 'active'
-      },
-      doc_as_upsert: true
-    })
+    await es.upsert(
+      `${process.env.stage}-users`,
+      body.Driver_id,
+      { 
+        body
+      }
+    )
 
     return {
       statusCode: 201,
